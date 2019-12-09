@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Banner Area Starts -->
+<section class="banner-area banner-bg about-page text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="banner-text">
+                        <h3>about us</h3>
+                        <a href="{% url 'index' %}">home</a>
+                        <span class="mx-2">/</span>
+                        <a href="{% url 'about' %}">about us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner Area End -->
+
+
+    <!-- About Area Starts -->
+    <section class="about-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 align-self-center mb-5 mb-lg-0">
+                    <h3>welcome to our best fitness club</h3>
+                    <p>In seas is man brought it them that void fill land fourth. All thing air gathering day replenish bearing very. Together first good given firmament moving, night moved moved also them vold land</p>
+                    <p>In seas is man brought it them that void fill land fourth. All thing air gathering, days replenish bearing very. Together first good given firmament moving, ni moved are moved also them vold land. Hath creeping subdue he. Fish. Green face whose it be seasons multiply female midst.</p>
+                    <a href="#" class="template-btn mt-4">learn more</a>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <img class="img-fluid" src="{% static 'images/about.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Area End -->
+
+
+    <!-- Feature Area Starts -->
+    <section class="feature-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-top text-center">
+                        <h3>featured classes</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-feature mb-5 mb-lg-0">
+                        <div class="feature-img">
+                            <img src="{% static 'images/feature1.jpg' %}" alt="">
+                            <div class="hover-state">
+                                <a href="#" class="template-btn">details</a>
+                            </div>
+                        </div>
+                        <div class="feature-footer text-center">
+                            <h5>cycling training</h5>
+                            <p>Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-feature mb-5 mb-lg-0">
+                        <div class="feature-img">
+                            <img src="{% static 'images/feature2.jpg' %}" alt="">
+                            <div class="hover-state">
+                                <a href="#" class="template-btn">details</a>
+                            </div>
+                        </div>
+                        <div class="feature-footer text-center">
+                            <h5>tone muscle</h5>
+                            <p>Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-feature">
+                        <div class="feature-img">
+                            <img src="{% static 'images/feature3.jpg' %}" alt="">
+                            <div class="hover-state">
+                                <a href="#" class="template-btn">details</a>
+                            </div>
+                        </div>
+                        <div class="feature-footer text-center">
+                            <h5>meditation work</h5>
+                            <p>Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Area End -->
+
+
+    <!-- Client Area Starts -->
+    <section class="client-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-top text-center">
+                        <h3>happy client says</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="client-slider owl-carousel">
+                        <div class="single-slide d-flex">
+                            <div class="slide-img mr-4">
+                                <img src="{% static 'images/client1.png' %}" alt="">
+                            </div>
+                            <div class="slide-text">
+                                <p>Give dry stars form. Us called an won't winged had land cru abundantly land Midst</p>
+                                <h5>danyel yarde</h5>
+                                <h6>CEO & founder</h6>
+                            </div>
+                        </div>
+                        <div class="single-slide d-flex">
+                            <div class="slide-img mr-4">
+                                <img src="{% static 'images/client2.png' %}" alt="">
+                            </div>
+                            <div class="slide-text">
+                                <p>Give dry stars form. Us called an won't winged had land cru abundantly land Midst</p>
+                                <h5>Manyel yarde</h5>
+                                <h6>CEO & founder</h6>
+                            </div>
+                        </div>
+                        <div class="single-slide d-flex">
+                            <div class="slide-img mr-4">
+                                <img src="{% static 'images/client3.png' %}" alt="">
+                            </div>
+                            <div class="slide-text">
+                                <p>Give dry stars form. Us called an won't winged had land cru abundantly land Midst</p>
+                                <h5>Sanyel yarde</h5>
+                                <h6>CEO & founder</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Client Area End -->
+
+    <!-- Friend Area Starts -->
+    <section class="friend-area section-padding text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>bring all your friends. get 50% discount!</h3>
+                    <h4 class="pt-3 pb-4">Give dry stars form us called won't winged had abundantly <br>land Midst appear for you eden</h4>
+                    <a href="#" class="template-btn">join with us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Friend Area End -->
+{% endblock %}

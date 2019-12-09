@@ -1,0 +1,46 @@
+ <!-- Header Area Starts -->
+ {% load static %}
+ <!-- Header Area Starts -->
+ <header class="header-area main-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="logo-area">
+                        <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt="logo"></a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="custom-navbar">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>  
+                    <div class="main-menu">
+                        <ul>
+                            <li class="active"><a href="{% url 'index' %}">home</a></li>
+                            <li><a href="{% url 'about' %}">about us</a></li>
+                            <li><a href="schedule.html">schedasdwasdule</a></li>
+                            <li><a href="trainers.html">trainers</a></li>
+                            <li><a href="#">blog</a>
+                                <ul class="sub-menu">
+                                    <li><a href="blog-home.html">Blog Home</a></li>
+                                    <li><a href="blog-details.html">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="contact-us.html">contact</a></li>
+                            <li><a href="#">pages</a>
+                                <ul class="sub-menu">
+                                    <li><a href="service.html">Service</a></li>
+                                    <li><a href="elements.html">Elements</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-btn">
+                                <a href="#" class="template-btn">Register</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header Area End -->
