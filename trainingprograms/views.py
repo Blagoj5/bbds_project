@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Programs
 
 def programsView(request):
     return render(request, 'trainingprograms/programs.html')
