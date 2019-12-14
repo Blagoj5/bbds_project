@@ -28,7 +28,7 @@ class Programs(models.Model):
 class Program(models.Model):
     program_id = models.ForeignKey(Programs, on_delete=models.DO_NOTHING)
     for_day = models.PositiveSmallIntegerField(blank=False)
-    week = models.PositiveSmallIntegerField(blank=True, null=True)
+    week = models.PositiveSmallIntegerField(blank=False)
     day_title = models.CharField(max_length=50)
     ex1 = models.CharField(max_length=50)
     reps1 = models.CharField(max_length=25, default='3x10')
