@@ -41,11 +41,9 @@
 							</tr>
 						</thead>
 						<tbody>
-                            {% for day in week %}
+                            {% for day in days %}
                                 <tr>
-                                    {% if week == 'rest' %}
-                                        <th class="name" scope="row">Rest Day</th>
-                                    {% else %}
+                                    {% if day.for_day == forloop.counter %}
                                         <th class="name" scope="row">Day {{ day.for_day }}</th>
                                         <td>{{ day.ex1 }} {{ day.reps1 }}</td>
                                         <td>{{ day.ex2 }} {{ day.reps2 }}</td>
@@ -54,19 +52,38 @@
                                         <td>{{ day.ex5 }} {{ day.reps5 }}</td>
                                         <td>{{ day.ex6 }} {{ day.reps6 }}</td>
                                         <td>{{ day.ex7 }} {{ day.reps7 }}</td>
+                                    {% else %}
+                                        <th class="name" scope="row">Rest Day</th>
+                                        <div class="invisible" style="width: 0%; height: 0%;">
+                                            {% if forloop.counter|add:"1" != day.for_day %}
+                                                {% if forloop.counter|add:"2" != day.for_day %}
+                                                    <tr>
+                                                        <th class="name" scope="row">Rest Day</th>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                        <tr>
+                                            <th class="name" scope="row">Day {{ day.for_day }}</th>
+                                            <td>{{ day.ex1 }} {{ day.reps1 }}</td>
+                                            <td>{{ day.ex2 }} {{ day.reps2 }}</td>
+                                            <td>{{ day.ex3 }} {{ day.reps3 }}</td>
+                                            <td>{{ day.ex4 }} {{ day.reps4 }}</td>
+                                            <td>{{ day.ex5 }} {{ day.reps5 }}</td>
+                                            <td>{{ day.ex6 }} {{ day.reps6 }}</td>
+                                            <td>{{ day.ex7 }} {{ day.reps7 }}</td>
+                                        </tr>
                                     {% endif %}
                                 </tr>
                                 {% if forloop.last %}
-                                    {% if not week.has_other_pages %}
-                                        <tr>
-                                            <th class="name" scope="row">REPEAT</th>
-                                            <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
-                                            <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
-                                            <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
-                                            <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
-                                            <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
-                                        </tr>
-                                    {% endif %}
+                                    <tr>
+                                       <th class="name" scope="row">REPEAT</th>
+                                       <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
+                                       <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
+                                       <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
+                                       <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
+                                       <td><i class="fa fa-repeat" style="font-size:36px;"></i></td>
+                                    </tr>
                                 {% endif %}
                             {% endfor %}
 						</tbody>
@@ -76,9 +93,4 @@
         </div>
     </section>
     <!-- Schedule Area End -->
-
-    <!-- Pagination -->
-    {% if week.has_other_pages %}
-        {% include 'partials/_pagination.html' with paginate=week %}
-    {% endif %}
 {% endblock %}
