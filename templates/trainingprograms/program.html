@@ -43,7 +43,7 @@
 						<tbody>
                             {% for day in week %}
                                 <tr>
-                                    {% if week == 'rest' %}
+                                    {% if day == 'rest' %}
                                         <th class="name" scope="row">Rest Day</th>
                                     {% else %}
                                         <th class="name" scope="row">Day {{ day.for_day }}</th>

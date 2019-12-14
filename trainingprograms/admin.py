@@ -16,7 +16,7 @@ class ProgramsAdmin(admin.ModelAdmin):
 admin.site.register(Programs, ProgramsAdmin)
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ('program_id', 'day_title', 'for_day')
+    list_display = ('program_id', 'day_title', 'week', 'for_day')
     list_display_links = ('day_title', 'for_day', 'program_id')
     list_per_page = 25
     search_fields = ('for_day', 'day_title', 'program_id__athleteName')

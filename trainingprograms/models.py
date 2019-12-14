@@ -27,7 +27,8 @@ class Programs(models.Model):
 
 class Program(models.Model):
     program_id = models.ForeignKey(Programs, on_delete=models.DO_NOTHING)
-    for_day = models.PositiveSmallIntegerField()
+    for_day = models.PositiveSmallIntegerField(blank=False)
+    week = models.PositiveSmallIntegerField(blank=True, null=True)
     day_title = models.CharField(max_length=50)
     ex1 = models.CharField(max_length=50)
     reps1 = models.CharField(max_length=25, default='3x10')
@@ -49,6 +50,9 @@ class Program(models.Model):
         verbose_name_plural = 'program'
         constraints = [
             models.CheckConstraint(check=models.Q(for_day__gt=0), name='for_day_gt_0'),
+            models.CheckConstraint(check=models.Q(for_day__lte=7), name='for_day_lte_7'),
+            models.CheckConstraint(check=models.Q(week__gt=0), name='week_gt_0'),
+            models.CheckConstraint(check=models.Q(week__lte=9), name='week_lte_9'),
         ]
     def __str__(self):
         return self.program_id.athlete_name + "'s " + self.program_id.program_name + ' ' + self.day_title + 'Day ' + str(self.for_day)
