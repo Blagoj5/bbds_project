@@ -2,12 +2,16 @@ from django.contrib import admin
 from .models import Programs, Program
 
 class ProgramsAdmin(admin.ModelAdmin):
-    list_display = ('athleteName', 'programName', 'programCategory', 'is_published')
-    list_display_links = ('athleteName', 'programName')
+    list_display = ('athlete_name', 'program_name', 'program_category', 'is_published')
+    list_display_links = ('athlete_name', 'program_name')
     list_editable = ('is_published',)
     list_filter = ('is_published',)
     list_per_page= 25
-    search_fields = ('athleteName', 'programName', 'programCategory')
+    search_fields = ('athlete_name', 'program_name', 'program_category')
+    prepopulated_fields = {
+        'slug': ('athlete_name', 'program_category', 'program_name',),
+    
+    }
 
 admin.site.register(Programs, ProgramsAdmin)
 
