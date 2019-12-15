@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from .models import Programs, Program
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -20,6 +20,7 @@ def programsView(request):
 
 
 def programView(request, slug_field):
+
     program = get_object_or_404(Programs ,slug=slug_field)
     
     weeks = []
@@ -39,17 +40,16 @@ def programView(request, slug_field):
 
     weeks = split_weeks(weeks, week_max)
 
-    
-
     paginator = Paginator(weeks, 7)
-
     page = request.GET.get('page')
     week = paginator.get_page(page)
-
-    print(weeks)
 
     context = {
         'day': day,
         'week': week,
     }
+
     return render(request, 'trainingprograms/program.html', context)
+
+def searchView(request):
+    return render(request, 'trainingprograms/search.html')

@@ -31,7 +31,6 @@ def split_weeks(weeks, week_max):
             counter_two = 1
 
         num = int(str(counter) + str(counter_two))
-        print(num)
         if num in program_in_week.keys():
             day_in_week.append(program_in_week[num])
         else:
