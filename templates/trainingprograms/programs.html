@@ -18,6 +18,75 @@
             </div>
         </section>  
         <!-- Banner Area End -->
+
+<!-- Search area -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+
+    <div class="wrapper wrapper--w900">
+            <div class="card card-6">
+                <div class="card-body">
+                    <form action="{% url 'search' %}">
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Athlete Name</label>
+                                    <input class="input--style-1" type="text" name="athlete" placeholder="Chris Bumpstead etc.">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Dummy input</label>
+                                    <input class="input--style-1" type="text" name="to" placeholder="City, Region or&nbsp;Airport">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Program Name</label>
+                                    <input class="input--style-1" type="text" name="program" placeholder="Push Pull Legs, Bodybuilding, etc.." id="input-start">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Program Category</label>
+                                        <select class="input--style-1" name="category">
+                                            <option selected="" value="all">All categories</option>
+                                            <option value="strength">Strength</option>
+                                            <option value="hypertrophy">Hypertrophy</option>
+                                            <option value="strength/hypertrophy">Strength/Hypertrophy</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                                <div class="col-6">
+                                        <div class="input-group">
+                                            <label class="label">Duration of program (in weeks)</label>
+                                            <select class="input--style-1">
+                                                    <option selected=""></option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    </select>
+                                        </div>
+                                    </div>
+                            <div class="col-6">
+                                <button class="btn-submit m-b-0" type="submit">search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     
     
         <!-- Feature Area Starts -->
@@ -26,7 +95,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-top text-center">
-                            <h3>featured classes</h3>
+                            <h3>Available programs</h3>
                         </div>
                     </div>
                 </div>
@@ -43,7 +112,7 @@
                                     </div>
                                     <div class="feature-footer text-center">
                                         <a href="#"><h5>{{ program.athlete_name }}'s {{ program.program_name }} </h5> </a>
-                                        <p>Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p>
+                                        <p>{{ program.description }}Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p>
                                     </div>
                                 </div>
                             </div>

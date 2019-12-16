@@ -47,9 +47,47 @@ def programView(request, slug_field):
     context = {
         'day': day,
         'week': week,
+        'program': program,
     }
 
     return render(request, 'trainingprograms/program.html', context)
 
 def searchView(request):
-    return render(request, 'trainingprograms/search.html')
+    print(request.GET)
+
+    queryset_list = Programs.objects.order_by('-list_date').filter(is_published=True)
+    print(queryset_list)
+    # Filter by athlete
+    if 'keywords' in request.GET:
+        keywords = request.GET['keywords']
+        if keywords:
+            queryset_list = Programs.objects.filter(description__icontains=athlete)
+    print(queryset_list)
+
+    if 'athlete' in request.GET:
+        athlete = request.GET['athlete']
+        if athlete:
+            queryset_list = Programs.objects.filter(athlete_name__icontains=athlete)
+    print(queryset_list)
+
+
+    # Filter by program
+    if 'program' in request.GET:
+        program = request.GET['program']
+        if program:
+            queryset_list = queryset_list.filter(program_name__icontains=program)
+                
+
+    print(queryset_list)
+
+    # if 'athlete' in request.GET:
+    #     athlete = request.GET['athlete']
+    #     if athlete:
+    #         queryset_list = Programs.objects.filter(athlete_name__icontains=athlete)
+
+    context = {
+        'programs': queryset_list,
+        'values': request.GET,
+    }
+
+    return render(request, 'trainingprograms/search.html', context)
