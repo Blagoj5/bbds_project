@@ -4,6 +4,8 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from .helperfunction import split_weeks
 from itertools import chain
+from django.db.models import Q, Max
+from .choices import num_weeks, category_type
 
 
 def programsView(request):
@@ -14,15 +16,17 @@ def programsView(request):
     programs_paginated = paginator.get_page(page)
 
     context = {
-        'programs': programs_paginated
+        'programs': programs_paginated,
+        'weeks': num_weeks,
+        'category_type': category_type,
     }
     return render(request, 'trainingprograms/programs.html', context)
+
 
 
 def programView(request, slug_field):
 
     program = get_object_or_404(Programs ,slug=slug_field)
-    
     weeks = []
     week_max = 0
     try :
@@ -37,6 +41,11 @@ def programView(request, slug_field):
     except IndexError:
         raise Http404("Program does not exist")
     
+    # These lines are small query for always updating and adding the max week to the duration field of the current program, so the search queries(and search fields) are VALID
+    if not program.program_duration == week_max:
+        program.program_duration = week_max
+        program.save()
+    # ------------------------------------------------------------------------------------------------------------------------------
 
     weeks = split_weeks(weeks, week_max)
 
@@ -52,23 +61,25 @@ def programView(request, slug_field):
 
     return render(request, 'trainingprograms/program.html', context)
 
+
+
 def searchView(request):
-    print(request.GET)
 
     queryset_list = Programs.objects.order_by('-list_date').filter(is_published=True)
-    print(queryset_list)
-    # Filter by athlete
+
+    # Filter by all keywords, and use it even for the nav search input
     if 'keywords' in request.GET:
         keywords = request.GET['keywords']
         if keywords:
-            queryset_list = Programs.objects.filter(description__icontains=athlete)
-    print(queryset_list)
+            queryset_list = queryset_list.filter(Q(description__icontains=keywords) | Q(athlete_name__icontains=keywords) |
+            Q(program_name__icontains=keywords))
 
+
+    # Filter by athlete
     if 'athlete' in request.GET:
         athlete = request.GET['athlete']
         if athlete:
-            queryset_list = Programs.objects.filter(athlete_name__icontains=athlete)
-    print(queryset_list)
+            queryset_list = queryset_list.filter(athlete_name__icontains=athlete)
 
 
     # Filter by program
@@ -77,15 +88,23 @@ def searchView(request):
         if program:
             queryset_list = queryset_list.filter(program_name__icontains=program)
                 
+    if 'category' in request.GET:
+        category = request.GET['category']
+        if category:
+            queryset_list = queryset_list.filter(program_category__iexact=category)
 
-    print(queryset_list)
+    if 'duration' in request.GET:
+        duration = request.GET['duration']
+        if duration:
+            # Aggregation function and gruoping
+            # queryset_list_two = Program.objects.values('program_id').annotate(max_week=Max('week')) # This is query that groups by program_id(ex 1, 2, etc ..) and finds max week of each program (ex. {'program_id': 1, 'max_week': 2} )
+                queryset_list = queryset_list.filter(program_duration__lte=duration)
 
-    # if 'athlete' in request.GET:
-    #     athlete = request.GET['athlete']
-    #     if athlete:
-    #         queryset_list = Programs.objects.filter(athlete_name__icontains=athlete)
+
 
     context = {
+        'weeks': num_weeks,
+        'category_type': category_type,
         'programs': queryset_list,
         'values': request.GET,
     }

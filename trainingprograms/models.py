@@ -9,6 +9,7 @@ class Programs(models.Model):
     athlete_photo = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True)
     program_name = models.CharField(max_length=50)
     program_category = models.CharField(max_length=50)
+    program_duration = models.PositiveSmallIntegerField(blank=True, null=True)
     description = models.CharField(max_length=200, blank=True)
     slug = models.SlugField(max_length=200,unique=True, null=False)
     is_published = models.BooleanField(default=False)
@@ -17,6 +18,10 @@ class Programs(models.Model):
     class Meta:
         verbose_name = 'program'
         verbose_name_plural = 'programs'
+        constraints = [
+            models.CheckConstraint(check=models.Q(program_duration__gt=0), name='program_duration_gt_0'),
+            models.CheckConstraint(check=models.Q(program_duration__lte=9), name='program_duration_lte_9'),
+        ]
 
     def __str__(self):
         return self.athlete_name + "'s "+ self.program_category + " " + self.program_name
