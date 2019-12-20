@@ -72,7 +72,7 @@ def searchView(request):
         keywords = request.GET['keywords']
         if keywords:
             queryset_list = queryset_list.filter(Q(description__icontains=keywords) | Q(athlete_name__icontains=keywords) |
-            Q(program_name__icontains=keywords))
+            Q(program_name__icontains=keywords) | Q(program_category__icontains=keywords))
 
 
     # Filter by athlete

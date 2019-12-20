@@ -22,62 +22,87 @@
     <!-- Search area -->
     <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-
-    <div class="wrapper wrapper--w900">
-        <div class="card card-6">
-            <div class="card-body">
-                <form action="{% url 'search' %}">
-                    <div class="row row-space">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Keywords</label>
-                                <input class="input--style-1" type="text" name="keywords" placeholder="Keywords..">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Athlete Name</label>
-                                <input class="input--style-1" type="text" name="athlete" placeholder="Chris Bumpstead, David Laid etc..">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-space">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Program Name</label>
-                                <input class="input--style-1" type="text" name="program" placeholder="Push Pull Legs, Bodybuilding, etc.." id="input-start" >
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Program Category</label>
-                                    <select class="input--style-1" name="category">
-                                        <option selected="true" disabled="disabled">All categories</option>
-                                        {% for k, v in category_type.items %}
-                                            <option value="{{ k }}">{{ v }}</option>
-                                        {% endfor %}
-                                    </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-space">
-                            <div class="col-6">
-                                    <div class="input-group">
-                                        <label class="label">Duration of program (in weeks)</label>
-                                            <select class="input--style-1" name="duration">
-                                                    <option selected="true"></option>
-                                                    {% for k, v in weeks.items %}
-                                                        <option value="{{ k }}">{{ v }} {% if k == '1' %} (Repeat) {% endif %}  </option>
-                                                    {% endfor %}
-                                            </select>
+<!-- Test collapsible area, inside it Search field-->
+<div class="container">
+        <div class="row">
+            <div class="col-12">
+                    <button type="button" class="collapsible text-center" id="morefilters">More Filters</button>
+                    <div class="content">
+                            <div class="wrapper wrapper--w900">
+                                    <div class="card card-6">
+                                        <div class="card-body">
+                                            <form action="{% url 'search' %}">
+                                                <div class="row row-space">
+                                                    <div class="col-6">
+                                                        <div class="input-group">
+                                                            <label class="label">Keywords</label>
+                                                            <input class="input--style-1" type="text" name="keywords" placeholder="Keywords..">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="input-group">
+                                                            <label class="label">Athlete Name</label>
+                                                            <input class="input--style-1" type="text" name="athlete" placeholder="Chris Bumpstead, David Laid etc..">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-space">
+                                                    <div class="col-6">
+                                                        <div class="input-group">
+                                                            <label class="label">Program Name</label>
+                                                            <input class="input--style-1" type="text" name="program" placeholder="Push Pull Legs, Bodybuilding, etc.." id="input-start" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="input-group">
+                                                            <label class="label">Program Category</label>
+                                                                <select class="input--style-1" name="category">
+                                                                    <option selected="true" value="">All categories</option>
+                                                                    {% for k, v in category_type.items %}
+                                                                        <option value="{{ k }}" 
+                                                                        {% if k == values.category %}
+                                                                        selected
+                                                                        {% endif %}> {{ v }}</option>
+                                                                    {% endfor %}
+                                
+                                                                </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-space">
+                                                        <div class="col-6">
+                                                                <div class="input-group">
+                                                                    <label class="label">Duration of program (in weeks)</label>
+                                                                        <select class="input--style-1" name="duration">
+                                                                            <option selected="true"></option>
+                                                                            {% for k, v in weeks.items %}
+                                                                                <option value="{{ k }}" 
+                                                                                {% if k == values.duration %}
+                                                                                selected
+                                                                                {% endif %}>{{ v }} {% if k == '1' %} (Repeat) {% endif %}  </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                </div>
+                                                            </div>
+                                                    <div class="col-6">
+                                                        <button class="btn-submit m-b-0" type="submit">search</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                        <div class="col-6">
-                            <button class="btn-submit m-b-0" type="submit">search</button>
-                        </div>
+                        <!-- BUTTON FOR REFRESHING SETTINGS -->
+                        <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12" style="height: 30px;">
+                                        <div class="section-top text-center">
+                                            <a href="{% url 'programs' %}"><button type="button" class="btn btn-light">Refresh search fields</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                
                     </div>
-                </form>
             </div>
         </div>
     </div>
@@ -99,17 +124,25 @@
                             <div class="col-lg-4 col-md-6">
                                 <div class="single-feature mb-5 mb-lg-0">
                                     <div class="feature-img">
-                                        <img src="{{ program.athlete_photo.url }}" alt=""  id="image-size">
+                                        <img src="{{ program.athlete_photo.url }}" alt=""  id="image-size"> 
                                         <div class="hover-state">
                                             <a href="{% url 'program' program.slug %}" class="template-btn">details</a>
+                                            <button class="button button-like pull-right">
+                                                    <i class="fa fa-heart"></i>
+                                                    <span>Like</span>
+                                                  </button> 
                                         </div>
+                                        <button class="button button-like pull-left">
+                                                <i class="fa fa-heart"></i>
+                                                <span>Like</span>
+                                              </button> 
                                     </div>
                                     <div class="feature-footer text-center">
-                                        <a href="#"><h5>{{ program.athlete_name }}'s {{ program.program_name }} </h5> </a>
-                                        <p>{{ program.description }}Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p>
+                                        <a href="{% url 'program' program.slug %}"><h5>{{ program.athlete_name }}'s {{ program.program_name }} </h5> </a>
+                                        <p>{{ program.description }}Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p> 
                                     </div>
                                 </div>
-                            </div>
+                            </div>                           
                     {% endfor %}
                 {% else %}
                     <p class="col-md-12">There's no available programs right now!</p>

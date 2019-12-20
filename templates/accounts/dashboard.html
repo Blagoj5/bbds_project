@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% include 'partials/_alerts.html' %}
+    {% if user.is_authenticated %}
+        <h4 class="col-12 text-center" style="color: black;">Hello {{ user.username|capfirst }}, this is your personal dashboard</h4>
+    {% endif %}
+{% endblock %}

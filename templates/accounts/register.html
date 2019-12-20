@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %} 
+    <div class="container-contact2">
+            <div class="wrap-contact2">
+                <form class="contact2-form validate-form" method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    {% include 'partials/_alerts.html' %}
+                    <span class="contact2-form-title">
+                    Register
+                    </span>
+
+                    <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input2" type="text" name="first_name">
+                        <span class="focus-input2" data-placeholder="FIRST NAME"></span>
+                    </div>
+                       
+                    <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input2" type="text" name="last_name">
+                        <span class="focus-input2" data-placeholder="LAST NAME"></span>
+                    </div>
+
+                    <div class="wrap-input2 validate-input" data-validate="Name is required">
+                        <input class="input2" type="text" name="username">
+                        <span class="focus-input2" data-placeholder="USERNAME"></span>
+                    </div>
+
+                    <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input2" type="password" name="password">
+                        <span class="focus-input2" data-placeholder="PASSWORD"></span>
+                    </div>
+
+                    <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input2" type="password" name="password2">
+                        <span class="focus-input2" data-placeholder="CONFIRM PASSWORD"></span>
+                    </div>
+
+                    <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input2" type="email" name="email">
+                        <span class="focus-input2" data-placeholder="EMAIL"></span>
+                    </div>
+                   
+                    
+                   
+
+                    <div class="container-contact2-form-btn">
+                        <div class="wrap-contact2-form-btn">
+                            <div class="contact2-form-bgbtn"></div>
+                            <button class="contact2-form-btn">
+                                Register
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+{% endblock %}

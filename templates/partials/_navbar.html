@@ -17,20 +17,39 @@
                     </div>  
                     <div class="main-menu">
                         <ul>
-                            <li class="active"><a href="{% url 'index' %}">home</a></li>
-                            <li><a href="{% url 'about' %}">about us</a></li>
-                            <li><a href="{% url 'programs' %}">Training Programs</a></li>
-                            <li class="menu-btn">
-                                <a href="#" class="template-btn">Login</a>
+                            <li {% if '/' == request.path %} class="active" {% endif %}><a href="{% url 'index' %}">home</a></li>
+                            <li {% if 'about' in request.path %} class="active" {% endif %}><a href="{% url 'about' %}">about us</a></li>
+                            <li {% if 'programs' in request.path %} class="active" {% endif %}><a href="{% url 'programs' %}">Training Programs</a></li>
+                            <li>
+                                <a style="width: 290px;">
+                                    <form class="navbar-form" role="search" method="GET" action="{% url 'search' %}">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Search" name="keywords">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                </a>
                             </li>
-                            {% if request.user_agent.is_mobile or request.user_agent.is_tablet %}
+                            {% if user.is_authenticated %}
+                            <li {% if 'dashboard' in request.path %} class="active" {% endif %}><a href="{% url 'dashboard' %}">{{ user.username|capfirst }}'s Dashboard</a></li>
                                 <li class="menu-btn">
-                                    <a href="#" class="template-btn" id="registerbuttonchange">Register</a>
+                                    <a href="{% url 'logout' %}" class="template-btn">Logout</a>
                                 </li>
                             {% else %}
-                                <li>
-                                    <a href="#" class="template-btn" id="registerbuttonchange">Register</a>
+                                <li class="menu-btn">
+                                    <a href="{% url 'login' %}" class="template-btn">Login</a>
                                 </li>
+                                {% if request.user_agent.is_mobile or request.user_agent.is_tablet %}
+                                    <li class="menu-btn">
+                                        <a href="{% url 'register' %}" class="template-btn" id="registerbuttonchange">Register</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url 'register' %}" class="template-btn" id="registerbuttonchange">Register</a>
+                                    </li>
+                                {% endif %}
                             {% endif %}
                         </ul>
                     </div>

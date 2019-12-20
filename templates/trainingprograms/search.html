@@ -19,86 +19,97 @@
 </section>  
 <!-- Banner Area End -->
 
-<!-- Search area -->
+<!-- Test collapsible area, inside it Search field-->
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+                <button type="button" class="collapsible text-center" id="morefilters">More Filters</button>
+                <div class="content">
+                        <div class="wrapper wrapper--w900">
+                                <div class="card card-6">
+                                    <div class="card-body">
+                                        <form action="{% url 'search' %}">
+                                            <div class="row row-space">
+                                                <div class="col-6">
+                                                    <div class="input-group">
+                                                        <label class="label">Keywords</label>
+                                                        <input class="input--style-1" type="text" name="keywords" placeholder="Keywords..">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="input-group">
+                                                        <label class="label">Athlete Name</label>
+                                                        <input class="input--style-1" type="text" name="athlete" placeholder="Chris Bumpstead, David Laid etc..">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-space">
+                                                <div class="col-6">
+                                                    <div class="input-group">
+                                                        <label class="label">Program Name</label>
+                                                        <input class="input--style-1" type="text" name="program" placeholder="Push Pull Legs, Bodybuilding, etc.." id="input-start" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="input-group">
+                                                        <label class="label">Program Category</label>
+                                                            <select class="input--style-1" name="category">
+                                                                <option selected="true" value="">All categories</option>
+                                                                {% for k, v in category_type.items %}
+                                                                    <option value="{{ k }}" 
+                                                                    {% if k == values.category %}
+                                                                    selected
+                                                                    {% endif %}> {{ v }}</option>
+                                                                {% endfor %}
+                            
+                                                            </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-space">
+                                                    <div class="col-6">
+                                                            <div class="input-group">
+                                                                <label class="label">Duration of program (in weeks)</label>
+                                                                    <select class="input--style-1" name="duration">
+                                                                        <option selected="true"></option>
+                                                                        {% for k, v in weeks.items %}
+                                                                            <option value="{{ k }}" 
+                                                                            {% if k == values.duration %}
+                                                                            selected
+                                                                            {% endif %}>{{ v }} {% if k == '1' %} (Repeat) {% endif %}  </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                            </div>
+                                                        </div>
+                                                <div class="col-6">
+                                                    <button class="btn-submit m-b-0" type="submit">search</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- BUTTON FOR REFRESHING SETTINGS -->
+                    <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12" style="height: 30px;">
+                                    <div class="section-top text-center">
+                                        <a href="{% url 'programs' %}"><button type="button" class="btn btn-light">Refresh search fields</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search area fonts -->
 <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
 
-<div class="wrapper wrapper--w900">
-    <div class="card card-6">
-        <div class="card-body">
-            <form action="{% url 'search' %}">
-                <div class="row row-space">
-                    <div class="col-6">
-                        <div class="input-group">
-                            <label class="label">Keywords</label>
-                            <input class="input--style-1" type="text" name="keywords" placeholder="Keywords..">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="input-group">
-                            <label class="label">Athlete Name</label>
-                            <input class="input--style-1" type="text" name="athlete" placeholder="Chris Bumpstead, David Laid etc..">
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-space">
-                    <div class="col-6">
-                        <div class="input-group">
-                            <label class="label">Program Name</label>
-                            <input class="input--style-1" type="text" name="program" placeholder="Push Pull Legs, Bodybuilding, etc.." id="input-start" >
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="input-group">
-                            <label class="label">Program Category</label>
-                                <select class="input--style-1" name="category">
-                                    <option selected="true" value="">All categories</option>
-                                    {% for k, v in category_type.items %}
-                                        <option value="{{ k }}" 
-                                        {% if k == values.category %}
-                                        selected
-                                        {% endif %}> {{ v }}</option>
-                                    {% endfor %}
 
-                                </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-space">
-                        <div class="col-6">
-                                <div class="input-group">
-                                    <label class="label">Duration of program (in weeks)</label>
-                                        <select class="input--style-1" name="duration">
-                                            <option selected="true"></option>
-                                            {% for k, v in weeks.items %}
-                                                <option value="{{ k }}" 
-                                                {% if k == values.duration %}
-                                                selected
-                                                {% endif %}>{{ v }} {% if k == '1' %} (Repeat) {% endif %}  </option>
-                                            {% endfor %}
-                                        </select>
-                                </div>
-                            </div>
-                    <div class="col-6">
-                        <button class="btn-submit m-b-0" type="submit">search</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- BUTTON FOR REFRESHING SETTINGS -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12" style="height: 30px;">
-            <div class="section-top text-center">
-                <a href="{% url 'programs' %}"><button type="button" class="btn btn-light">Refresh search fields</button></a>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- Feature Area Starts -->
