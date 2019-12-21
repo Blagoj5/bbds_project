@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
+from django.contrib.auth.models import User
 from django.db import models
 from datetime import datetime
 
@@ -11,7 +11,9 @@ class Programs(models.Model):
     program_category = models.CharField(max_length=50)
     program_duration = models.PositiveSmallIntegerField(blank=True, null=True)
     description = models.CharField(max_length=200, blank=True)
+    users = models.ManyToManyField(User, blank=True)
     slug = models.SlugField(max_length=200,unique=True, null=False)
+    is_liked = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
     list_date = models.DateField(default=datetime.now, blank=True)
 

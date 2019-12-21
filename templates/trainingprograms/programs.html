@@ -127,15 +127,50 @@
                                         <img src="{{ program.athlete_photo.url }}" alt=""  id="image-size"> 
                                         <div class="hover-state">
                                             <a href="{% url 'program' program.slug %}" class="template-btn">details</a>
-                                            <button class="button button-like pull-right">
-                                                    <i class="fa fa-heart"></i>
-                                                    <span>Like</span>
-                                                  </button> 
+                                            {% if user.is_authenticated %}
+                                                <form method="POST" action="{% url 'programs' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="program_id" value="{{ program.id }}">
+                                                    {% if not program.is_liked %}
+                                                    <!-- set program is_liked to true -->
+                                                        <input type="hidden" name="liked" value="liked">
+                                                        <button class="button button-like pull-right" type="submit">
+                                                            <i class="fa fa-heart"></i>
+                                                            <span>Like</span>
+                                                        </button>
+                                                    {% else %}
+                                                    <!-- set program is_liked to false -->
+                                                        <input type="hidden" name="liked" value="unliked">
+                                                        <button class="button button-like pull-right liked" type="submit">
+                                                            <i class="fa fa-heart"></i>
+                                                            <span>Like</span>
+                                                        </button>
+                                                    {% endif %}
+                                                </form>
+                                            {% endif %}
                                         </div>
-                                        <button class="button button-like pull-left">
-                                                <i class="fa fa-heart"></i>
-                                                <span>Like</span>
-                                              </button> 
+                                        <!-- THIS IS A BUTTON FOR TESTING -->
+                                        {% if user.is_authenticated %}
+                                            <form method="POST" action="{% url 'programs' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="program_id" value="{{ program.id }}">
+                                                {% if not program.is_liked %}
+                                                <!-- set program is_liked to true -->
+                                                    <input type="hidden" name="liked" value="liked">
+                                                    <button class="button button-like pull-left" type="submit">
+                                                        <i class="fa fa-heart"></i>
+                                                        <span>Like</span>
+                                                    </button>
+                                                {% else %}
+                                                <!-- set program is_liked to false -->
+                                                    <input type="hidden" name="liked" value="unliked">
+                                                    <button class="button button-like pull-left liked" type="submit">
+                                                        <i class="fa fa-heart"></i>
+                                                        <span>Like</span>
+                                                    </button>
+                                                {% endif %}
+                                            </form>
+                                        {% endif %}
                                     </div>
                                     <div class="feature-footer text-center">
                                         <a href="{% url 'program' program.slug %}"><h5>{{ program.athlete_name }}'s {{ program.program_name }} </h5> </a>

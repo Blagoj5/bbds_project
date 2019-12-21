@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib import auth
@@ -70,7 +70,22 @@ def logout(request):
     return redirect('index')
 
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    
+    if not request.user.is_authenticated:
+        messages.error(request, 'Login required')
+        messages.debug(request, "You can't use dashboard if not logged in!")
+        return redirect('login')
+    else:
+        # user_liked_programs = User.objects.get(username=request.user.username).programs_set.filter
+        user_liked_programs = get_object_or_404(User, username=request.user.username).programs_set.filter(is_liked=True)
+
+        context = {
+            'programs': user_liked_programs
+        }
+        return render(request, 'accounts/dashboard.html', context)
+
+
+
 
 def admindashboard(request):
     return render(request, 'accounts/admindashboard.html')

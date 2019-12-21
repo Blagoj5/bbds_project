@@ -6,14 +6,41 @@ from .helperfunction import split_weeks
 from itertools import chain
 from django.db.models import Q, Max
 from .choices import num_weeks, category_type
+from django.contrib.auth.models import User
 
 
 def programsView(request):
-    programs = Programs.objects.order_by('-list_date').filter(is_published=True)
+
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            liked = request.POST['liked']
+            program_id = request.POST['program_id']
+            program = get_object_or_404(Programs, id = program_id)
+            if liked == 'liked':
+                program.is_liked = True
+                program.users.add(get_object_or_404(User, id = request.user.id))
+                program.save()
+            else:
+                program.is_liked = False
+                program.users.remove(get_object_or_404(User, id = request.user.id))
+                program.save()
+
+
+            # # 1 Way
+            # if 'to_redirect' in request.POST:
+            #     return redirect('dashboard')
+
+            to_redirect = request.POST.get('to_redirect', False)
+            if to_redirect:
+                return redirect('dashboard')
+            
+    programs = Programs.objects.order_by('-is_liked', '-list_date').filter(is_published=True)
     paginator = Paginator(programs, 6)
 
     page = request.GET.get('page')
     programs_paginated = paginator.get_page(page)
+
+    
 
     context = {
         'programs': programs_paginated,

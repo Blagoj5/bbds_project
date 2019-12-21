@@ -1,7 +1,101 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     {% include 'partials/_alerts.html' %}
     {% if user.is_authenticated %}
         <h4 class="col-12 text-center" style="color: black;">Hello {{ user.username|capfirst }}, this is your personal dashboard</h4>
+
+        <!-- Feature Area Starts -->
+        <section class="feature-area services section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section-top text-center">
+                                {% if programs %}
+                                    <h3>Liked programs</h3>
+                                {% else %}
+                                    <h5>Like your first program <a href="{% url 'programs' %}"><h5><b>HERE</b></h5></a></h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    {% if programs %}
+                        {% for program in programs %}
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="single-feature mb-5 mb-lg-0">
+                                        <div class="feature-img">
+                                            <img src="{{ program.athlete_photo.url }}" alt=""  id="image-size"> 
+                                            <div class="hover-state">
+                                                <a href="{% url 'program' program.slug %}" class="template-btn">details</a>
+                                                {% if user.is_authenticated %}
+                                                    <form method="POST" action="{% url 'programs' %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="program_id" value="{{ program.id }}">
+                                                        <input type="hidden" name="to_redirect" value="redirect">
+                                                        {% if not program.is_liked %}
+                                                        <!-- set program is_liked to true -->
+                                                            <input type="hidden" name="liked" value="liked">
+                                                            <button class="button button-like pull-right" type="submit">
+                                                                <i class="fa fa-heart"></i>
+                                                                <span>Like</span>
+                                                            </button>
+                                                        {% else %}
+                                                        <!-- set program is_liked to false -->
+                                                            <input type="hidden" name="liked" value="unliked">
+                                                            <button class="button button-like pull-right liked" type="submit">
+                                                                <i class="fa fa-heart"></i>
+                                                                <span>Like</span>
+                                                            </button>
+                                                        {% endif %}
+                                                    </form>
+                                                {% endif %}
+                                            </div>
+                                            <!-- THIS IS A BUTTON FOR TESTING -->
+                                            {% if user.is_authenticated %}
+                                                <form method="POST" action="{% url 'programs' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="program_id" value="{{ program.id }}">
+                                                    {% if not program.is_liked %}
+                                                    <!-- set program is_liked to true -->
+                                                        <input type="hidden" name="liked" value="liked">
+                                                        <button class="button button-like pull-left" type="submit">
+                                                            <i class="fa fa-heart"></i>
+                                                            <span>Like</span>
+                                                        </button>
+                                                    {% else %}
+                                                    <!-- set program is_liked to false -->
+                                                        <input type="hidden" name="liked" value="unliked">
+                                                        <button class="button button-like pull-left liked" type="submit">
+                                                            <i class="fa fa-heart"></i>
+                                                            <span>Like</span>
+                                                        </button>
+                                                    {% endif %}
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                        <div class="feature-footer text-center">
+                                            <a href="{% url 'program' program.slug %}"><h5>{{ program.athlete_name }}'s {{ program.program_name }} </h5> </a>
+                                            <p>{{ program.description }}Hath creeping subdue he fish green face whose spirit that seasons today multiply female midst upon</p> 
+                                        </div>
+                                    </div>
+                                </div>                           
+                        {% endfor %}
+                    {% else %}
+                        <p class="col-md-12">There's no available programs right now!</p>
+                    {% endif %}
+                    </div>
+                    <div class="row" id="paginator-change">
+                        <div class="col-md-12">
+                            {% if programs.has_other_pages %}
+                                {% include 'partials/_pagination.html' with paginate=programs %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Feature Area End -->
+            <link rel="stylesheet" href="{% static 'css/edits.css' %}">
+
     {% endif %}
 {% endblock %}
