@@ -949,17 +949,17 @@ input[type=number]::-webkit-outer-spin-button {
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('/static/form/fonts/poppins/Poppins-Regular.ttf') format('eot'); 
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('/static/form/fonts/poppins/Poppins-Medium.ttf') format('eot'); 
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('/static/form/fonts/poppins/Poppins-Bold.ttf') format('eot'); 
 }
 
 
