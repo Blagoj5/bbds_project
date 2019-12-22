@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib import auth
@@ -77,10 +78,15 @@ def dashboard(request):
         return redirect('login')
     else:
         # user_liked_programs = User.objects.get(username=request.user.username).programs_set.filter
-        user_liked_programs = get_object_or_404(User, username=request.user.username).programs_set.filter(is_liked=True)
+        user_liked_programs = get_object_or_404(User, username=request.user.username).programs_set.filter(is_liked=True, is_published=True)
+
+        paginator = Paginator(user_liked_programs, 6)
+
+        page = request.GET.get('page')
+        user_liked_programs_paginated = paginator.get_page(page)
 
         context = {
-            'programs': user_liked_programs
+            'programs': user_liked_programs_paginated
         }
         return render(request, 'accounts/dashboard.html', context)
 

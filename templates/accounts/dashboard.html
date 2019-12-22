@@ -32,7 +32,7 @@
                                                     <form method="POST" action="{% url 'programs' %}">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="program_id" value="{{ program.id }}">
-                                                        <input type="hidden" name="to_redirect" value="redirect">
+                                                        <input type="hidden" name="to_redirect" value="dashboard">
                                                         {% if not program.is_liked %}
                                                         <!-- set program is_liked to true -->
                                                             <input type="hidden" name="liked" value="liked">
