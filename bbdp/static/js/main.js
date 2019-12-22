@@ -2,11 +2,6 @@
     "use strict"
     jQuery(document).ready(function() {
 
-        // To scroll to programs
-        $('html, body').animate({
-            scrollTop: $('#morefilters').offset().top
-        }, 'slow');
-
         // Navigation for Mobile Device
         $('.custom-navbar').on('click', function(){
             $('.main-menu ul').slideToggle(500);
