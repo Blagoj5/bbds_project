@@ -27,7 +27,7 @@
                                         <div class="feature-img">
                                             <img src="{{ program.program.athlete_photo.url }}" alt=""  id="image-size"> 
                                             <div class="hover-state">
-                                                <a href="{% url 'program.program' program.slug %}" class="template-btn">details</a>
+                                                <a href="{% url 'program' program.program.slug %}" class="template-btn">details</a>
                                                 {% if user.is_authenticated %}
                                                     <form method="POST" action="{% url 'programs' %}">
                                                         {% csrf_token %}
@@ -46,7 +46,7 @@
                                             {% if user.is_authenticated %}
                                                 <form method="POST" action="{% url 'programs' %}">
                                                     {% csrf_token %}
-                                                    <input type="hidden" name="program_id" value="{{ program.id }}">
+                                                    <input type="hidden" name="program_id" value="{{ program.program.id }}">
                                                 </form>
                                             {% endif %}
                                         </div>

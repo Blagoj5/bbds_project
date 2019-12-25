@@ -124,7 +124,11 @@
                             <div class="col-lg-4 col-md-6">
                                 <div class="single-feature mb-5 mb-lg-0">
                                     <div class="feature-img">
-                                        <img src="{{ program.athlete_photo.url }}" alt=""  id="image-size"> 
+                                        {% if program.athlete_photo %}
+                                            <img src="{{ program.athlete_photo.url }}" alt=""  id="image-size"> 
+                                        {% else %}
+                                            <img src="" alt=""  id="image-size">
+                                        {% endif %} 
                                         <div class="hover-state">
                                             <a href="{% url 'program' program.slug %}" class="template-btn">details</a>
                                             {% if user.is_authenticated %}

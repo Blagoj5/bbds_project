@@ -79,9 +79,10 @@ def dashboard(request):
         messages.debug(request, "You can't use dashboard if not logged in!")
         return redirect('login')
     else:
-        # user_liked_programs = get_object_or_404(User, username=request.user.username).programs_set.filter(is_liked=True, is_published=True)
-        # user_liked_programs = Program_User.objects.filter(user=request.user.id, is_liked=True, program__is_published__iexact=True)
         user_liked_programs = Program_User.objects.filter(user=request.user.id, is_liked=True, program__is_published=True)
+        print(user_liked_programs)
+        for program in user_liked_programs:
+            print(program.program)
         paginator = Paginator(user_liked_programs, 6)
 
         page = request.GET.get('page')
@@ -90,7 +91,7 @@ def dashboard(request):
         context = {
             'programs': user_liked_programs_paginated
         }
-        return render(request, 'accounts/dashboard.html')
+        return render(request, 'accounts/dashboard.html', context)
 
 
 

@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 
 
 def programsView(request):
+    print(request.POST)
+    print(request.GET)
     programs_for_user = []
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -28,8 +30,6 @@ def programsView(request):
                     program_user = Program_User.objects.get(user=user.id, program=program.id, is_liked=True)
                     program_user.delete()
 
-            if Program_User.objects.filter(user=request.user.id , is_liked=True).exists():
-                programs_for_user = Program_User.objects.order_by('-program__list_date').filter(user=request.user.id, is_liked=True)
 
 
             # # 1 Way
@@ -42,11 +42,23 @@ def programsView(request):
                     return redirect('dashboard')
                 elif to_redirect == 'search':
                     return redirect('search')
+
+
+            if Program_User.objects.filter(user=request.user.id , is_liked=True).exists():
+                programs_for_user = Program_User.objects.filter(
+                    user=request.user.id, 
+                    is_liked=True, 
+                    program__is_published=True
+                )
         
         elif request.method == 'GET':
             # Treba da se dodade is_published isto taka
             if Program_User.objects.filter(user=request.user.id , is_liked=True).exists():
-                programs_for_user = Program_User.objects.order_by('-program__list_date').filter(user=request.user.id, is_liked=True)
+                programs_for_user = Program_User.objects.filter(
+                    user=request.user.id, 
+                    is_liked=True, 
+                    program__is_published=True
+                )
 
 
     programs = Programs.objects.order_by('-list_date').filter(is_published=True)
