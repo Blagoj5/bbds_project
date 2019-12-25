@@ -29,7 +29,7 @@ def programsView(request):
                     program_user.delete()
 
             if Program_User.objects.filter(user=request.user.id , is_liked=True).exists():
-                programs_for_user = Program_User.objects.filter(user=request.user.id, is_liked=True)
+                programs_for_user = Program_User.objects.order_by('-program__list_date').filter(user=request.user.id, is_liked=True)
 
 
             # # 1 Way
@@ -46,20 +46,33 @@ def programsView(request):
         elif request.method == 'GET':
             # Treba da se dodade is_published isto taka
             if Program_User.objects.filter(user=request.user.id , is_liked=True).exists():
-                programs_for_user = Program_User.objects.filter(user=request.user.id, is_liked=True)
+                programs_for_user = Program_User.objects.order_by('-program__list_date').filter(user=request.user.id, is_liked=True)
 
 
     programs = Programs.objects.order_by('-list_date').filter(is_published=True)
-    paginator = Paginator(programs, 6)
 
-    page = request.GET.get('page')
-    programs_paginated = paginator.get_page(page)
 
     # method for adding the liked programs (objects) for a certain user to a new list
     liked_programs = []
     for program in programs_for_user:
         liked_programs.append(program.program)
+
+    # #fix ordering (tried with order_by but also orders for other users, problem is that i only put info in db for when a program is liked!)
+    # # quick fix --->
+    # ordered_programs = []
+    # unliked_programs = ['line']
+    # for program in programs:
+    #     if program not in liked_programs:
+    #         unliked_programs.append(program)
+
    
+    # ordered_programs = liked_programs + unliked_programs
+
+
+    paginator = Paginator(programs, 6)
+
+    page = request.GET.get('page')
+    programs_paginated = paginator.get_page(page)
    
     context = {
         'programs': programs_paginated,
@@ -67,6 +80,7 @@ def programsView(request):
         'weeks': num_weeks,
         'category_type': category_type,
     }
+
     return render(request, 'trainingprograms/programs.html', context)
 
 
