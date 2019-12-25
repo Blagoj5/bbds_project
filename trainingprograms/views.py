@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
-from .models import Programs, Program
+from .models import Programs, Program, Program_User
 from django.core.paginator import Paginator
 from django.http import Http404
 from .helperfunction import split_weeks
@@ -10,42 +10,60 @@ from django.contrib.auth.models import User
 
 
 def programsView(request):
-
+    programs_for_user = []
     if request.user.is_authenticated:
         if request.method == 'POST':
             liked = request.POST['liked']
+            print(liked)
             program_id = request.POST['program_id']
             program = get_object_or_404(Programs, id = program_id)
-            if liked == 'liked':
-                program.is_liked = True
-                program.users.add(get_object_or_404(User, id = request.user.id))
-                program.save()
+            user = get_object_or_404(User, id = request.user.id)
+            if liked == 'unliked':
+                if not Program_User.objects.filter(user=user.id, program=program.id, is_liked=True).exists():
+                    program_user = Program_User.objects.create(user=user, program=program, is_liked=True)
             else:
-                program.is_liked = False
-                program.users.remove(get_object_or_404(User, id = request.user.id))
-                program.save()
+                # Deleting object in order for the table to have less tuples(rows) in the database, only add programs in the db
+                # that the user has liked, else if they are not liked=delete them from the db
+                if Program_User.objects.filter(user=user.id, program=program.id, is_liked=True).exists():
+                    program_user = Program_User.objects.get(user=user.id, program=program.id, is_liked=True)
+                    program_user.delete()
+
+            if Program_User.objects.filter(user=request.user.id , is_liked=True).exists():
+                programs_for_user = Program_User.objects.filter(user=request.user.id, is_liked=True)
+
 
             # # 1 Way
             # if 'to_redirect' in request.POST:
             #     return redirect('dashboard')
 
             to_redirect = request.POST.get('to_redirect', False)
-            print(to_redirect)
             if to_redirect:
                 if to_redirect == 'dashboard':
                     return redirect('dashboard')
                 elif to_redirect == 'search':
                     return redirect('search')
-            
-    programs = Programs.objects.order_by('-is_liked', '-list_date').filter(is_published=True)
+        
+        elif request.method == 'GET':
+            # Treba da se dodade is_published isto taka
+            if Program_User.objects.filter(user=request.user.id , is_liked=True).exists():
+                programs_for_user = Program_User.objects.filter(user=request.user.id, is_liked=True)
+
+
+    programs = Programs.objects.order_by('-list_date').filter(is_published=True)
     paginator = Paginator(programs, 6)
 
     page = request.GET.get('page')
     programs_paginated = paginator.get_page(page)
 
-
+    # method for adding the liked programs (objects) for a certain user to a new list
+    liked_programs = []
+    for program in programs_for_user:
+        liked_programs.append(program.program)
+   
+   
     context = {
         'programs': programs_paginated,
+        'liked_programs': liked_programs,
         'weeks': num_weeks,
         'category_type': category_type,
     }
@@ -82,6 +100,8 @@ def programView(request, slug_field):
     page = request.GET.get('page')
     week = paginator.get_page(page)
 
+
+
     context = {
         'day': day,
         'week': week,
@@ -94,7 +114,7 @@ def programView(request, slug_field):
 
 def searchView(request):
 
-    queryset_list = Programs.objects.order_by('-is_liked', '-list_date').filter(is_published=True)
+    queryset_list = Programs.objects.order_by('-list_date').filter(is_published=True)
 
     # Filter by all keywords, and use it even for the nav search input
     if 'keywords' in request.GET:

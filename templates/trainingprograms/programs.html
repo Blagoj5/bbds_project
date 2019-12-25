@@ -131,17 +131,17 @@
                                                 <form method="POST" action="{% url 'programs' %}">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="program_id" value="{{ program.id }}">
-                                                    {% if not program.is_liked %}
+                                                    {% if program in liked_programs %}
                                                     <!-- set program is_liked to true -->
                                                         <input type="hidden" name="liked" value="liked">
-                                                        <button class="button button-like pull-right" type="submit">
+                                                        <button class="button button-like pull-right liked" type="submit">
                                                             <i class="fa fa-heart"></i>
                                                             <span>Like</span>
                                                         </button>
                                                     {% else %}
                                                     <!-- set program is_liked to false -->
                                                         <input type="hidden" name="liked" value="unliked">
-                                                        <button class="button button-like pull-right liked" type="submit">
+                                                        <button class="button button-like pull-right" type="submit">
                                                             <i class="fa fa-heart"></i>
                                                             <span>Like</span>
                                                         </button>
@@ -154,21 +154,22 @@
                                             <form method="POST" action="{% url 'programs' %}">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="program_id" value="{{ program.id }}">
-                                                {% if not program.is_liked %}
-                                                <!-- set program is_liked to true -->
-                                                    <input type="hidden" name="liked" value="liked">
-                                                    <button class="button button-like pull-left" type="submit">
-                                                        <i class="fa fa-heart"></i>
-                                                        <span>Like</span>
-                                                    </button>
-                                                {% else %}
-                                                <!-- set program is_liked to false -->
-                                                    <input type="hidden" name="liked" value="unliked">
-                                                    <button class="button button-like pull-left liked" type="submit">
-                                                        <i class="fa fa-heart"></i>
-                                                        <span>Like</span>
-                                                    </button>
-                                                {% endif %}
+                                                <!-- OVDE IMA GRESHKA -->
+                                                {% if program in liked_programs %} 
+                                                    <!-- set program is_liked to true -->
+                                                        <input type="hidden" name="liked" value="liked">
+                                                        <button class="button button-like pull-right liked" type="submit">
+                                                            <i class="fa fa-heart"></i>
+                                                            <span>Like</span>
+                                                        </button>
+                                                    {% else %}
+                                                    <!-- set program is_liked to false -->
+                                                        <input type="hidden" name="liked" value="unliked">
+                                                        <button class="button button-like pull-right" type="submit">
+                                                            <i class="fa fa-heart"></i>
+                                                            <span>Like</span>
+                                                        </button>
+                                                    {% endif %}
                                             </form>
                                         {% endif %}
                                     </div>

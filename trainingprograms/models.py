@@ -11,9 +11,13 @@ class Programs(models.Model):
     program_category = models.CharField(max_length=50)
     program_duration = models.PositiveSmallIntegerField(blank=True, null=True)
     description = models.CharField(max_length=200, blank=True)
-    users = models.ManyToManyField(User, blank=True)
+    users = models.ManyToManyField(
+        User, 
+        through='Program_User',
+        through_fields=('program', 'user'),
+        blank=True,
+    )
     slug = models.SlugField(max_length=200,unique=True, null=False)
-    is_liked = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
     list_date = models.DateField(default=datetime.now, blank=True)
 
@@ -32,6 +36,13 @@ class Programs(models.Model):
         if not self.slug: 
             self.slug = slugify(self.athlete_name + " "  + self.program_category + " " + self.program_name)
         return super().save(*args, **kwargs)
+
+class Program_User(models.Model):
+    program = models.ForeignKey(Programs, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_liked = models.BooleanField(default=False)
+    # defint string method in order to return proper name 
+
 
 class Program(models.Model):
     program_id = models.ForeignKey(Programs, on_delete=models.DO_NOTHING)

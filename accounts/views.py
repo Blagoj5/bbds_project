@@ -3,6 +3,8 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib import auth
+from trainingprograms.models import Program_User
+
 
 
 # Create your views here.
@@ -10,7 +12,7 @@ def register(request):
     if request.method == 'POST':
         first_name = request.POST['first_name'] 
         last_name = request.POST['last_name'] 
-        username= request.POST['username'] 
+        username= request.POST['username'].lower() 
         password = request.POST['password'] 
         password = request.POST['password'] 
         password2 = request.POST['password2'] 
@@ -47,7 +49,7 @@ def register(request):
 def login(request):
 
     if request.method == 'POST':
-        username = request.POST['username']
+        username = request.POST['username'].lower()
         password = request.POST['password']
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
@@ -77,9 +79,9 @@ def dashboard(request):
         messages.debug(request, "You can't use dashboard if not logged in!")
         return redirect('login')
     else:
-        # user_liked_programs = User.objects.get(username=request.user.username).programs_set.filter
-        user_liked_programs = get_object_or_404(User, username=request.user.username).programs_set.filter(is_liked=True, is_published=True)
-
+        # user_liked_programs = get_object_or_404(User, username=request.user.username).programs_set.filter(is_liked=True, is_published=True)
+        # user_liked_programs = Program_User.objects.filter(user=request.user.id, is_liked=True, program__is_published__iexact=True)
+        user_liked_programs = Program_User.objects.filter(user=request.user.id, is_liked=True, program__is_published=True)
         paginator = Paginator(user_liked_programs, 6)
 
         page = request.GET.get('page')
@@ -88,7 +90,7 @@ def dashboard(request):
         context = {
             'programs': user_liked_programs_paginated
         }
-        return render(request, 'accounts/dashboard.html', context)
+        return render(request, 'accounts/dashboard.html')
 
 
 

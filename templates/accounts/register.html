@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
 {% block content %} 
+{% include "socialaccount/snippets/login_extra.html" %}
+
     <div class="container-contact2">
             <div class="wrap-contact2">
                 <form class="contact2-form validate-form" method="POST" action="{% url 'register' %}">
@@ -51,6 +55,9 @@
                         </div>
                     </div>
                 </form>
+                <a href="{% provider_login_url "facebook" method="js_sdk" %}" class="btn btn-block btn-social btn-facebook" style="background-color:#3b5998;text-align:center">                    <span class="fa fa-facebook"></span>
+                                 Sign in with Facebook
+                   </a>  
             </div>
         </div>
 {% endblock %}
