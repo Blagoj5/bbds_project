@@ -10,13 +10,10 @@ from django.contrib.auth.models import User
 
 
 def programsView(request):
-    print(request.POST)
-    print(request.GET)
     programs_for_user = []
     if request.user.is_authenticated:
         if request.method == 'POST':
             liked = request.POST['liked']
-            print(liked)
             program_id = request.POST['program_id']
             program = get_object_or_404(Programs, id = program_id)
             user = get_object_or_404(User, id = request.user.id)
@@ -80,17 +77,45 @@ def programsView(request):
    
     # ordered_programs = liked_programs + unliked_programs
 
-
     paginator = Paginator(programs, 6)
 
+
     page = request.GET.get('page')
+
+    # Solution num 1: Add another field in the  Post form, and get the page.number so you display that again
+    # if page is None:
+    #     if 'page' in request.POST:
+    #         page = request.POST.get('page')
+    
+    #Solution num 2: Store it in previous session, and get it in the needed session where there will be a post field named 'change_page' in order to notify
+    # if 'change_page' in request.POST:
+    #     page = request.session.get('page', None)
+    #     request.session['page'] = request.GET.get('page') # This will be set to None, because  there will be no pages;
+    # else:
+    #     request.session['page'] = request.GET.get('page')
+
+    if page is None:
+        if 'page' in request.POST:
+            page = request.POST.get('page')
+            request.GET._mutable = True
+            request.GET['page'] = page
+            request.GET._mutable = False
+            print(request.GET._mutable)
+
+
     programs_paginated = paginator.get_page(page)
+
+    print(request.GET)
+    print(request.POST)
+    # print(request.session.get('page', None))
+
    
     context = {
         'programs': programs_paginated,
         'liked_programs': liked_programs,
         'weeks': num_weeks,
         'category_type': category_type,
+        'page': request.GET.get('page'),
     }
 
     return render(request, 'trainingprograms/programs.html', context)

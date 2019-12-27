@@ -135,6 +135,8 @@
                                                 <form method="POST" action="{% url 'programs' %}">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="program_id" value="{{ program.id }}">
+                                                    <input type="hidden" name="page" value="{{ programs.number }}">
+                                                    <!-- <input type="hidden" name="change_page" value="{{ programs.number }}"> -->
                                                     {% if program in liked_programs %}
                                                     <!-- set program is_liked to true -->
                                                         <input type="hidden" name="liked" value="liked">

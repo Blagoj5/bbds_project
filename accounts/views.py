@@ -79,10 +79,8 @@ def dashboard(request):
         messages.debug(request, "You can't use dashboard if not logged in!")
         return redirect('login')
     else:
-        user_liked_programs = Program_User.objects.filter(user=request.user.id, is_liked=True, program__is_published=True)
-        print(user_liked_programs)
-        for program in user_liked_programs:
-            print(program.program)
+        user_liked_programs = Program_User.objects.order_by('-program__list_date').filter(user=request.user.id, is_liked=True, program__is_published=True)
+
         paginator = Paginator(user_liked_programs, 6)
 
         page = request.GET.get('page')
