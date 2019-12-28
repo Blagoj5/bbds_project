@@ -201,3 +201,10 @@ ACCOUNT_USERNAME_REQURIED=True
 
 #Login redirech Url
 LOGIN_REDIRECT_URL = 'dashboard'
+
+#Email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'baze.ytmusic@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ['MAILAPP_PASS']
+EMAIL_USE_TLS=True

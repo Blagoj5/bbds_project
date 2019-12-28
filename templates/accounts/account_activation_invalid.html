@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Email verify invalid!{% endblock title %}
+
+{% block content %}
+{% if messages %}
+  {% include 'partials/_alerts.html' %}
+{% endif %}
+
+  <h5 class="text-center">The confirmation link was invalid, possibly because it has already been used.</h5>
+{% endblock %}
