@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'widget_tweaks',
+
 ]
 
 MIDDLEWARE = [
@@ -200,7 +202,8 @@ ACCOUNT_USERNAME_REQURIED=True
 
 
 #Login redirech Url
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = '/account/dashboard'
+LOGIN_URL = '/account/login'
 
 #Email
 EMAIL_HOST = 'smtp.gmail.com'
@@ -208,3 +211,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'baze.ytmusic@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ['MAILAPP_PASS']
 EMAIL_USE_TLS=True
+PASSWORD_RESET_TIMEOUT_DAYS = 2
