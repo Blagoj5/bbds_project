@@ -11,6 +11,8 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('admin/dashboard', views.admindashboard, name='admindashboard'),
+    path('profile/username/<int:user_id>', views.change_username, name='change_username'), 
+    path('profile/password/<int:user_id>', views.change_password, name='change_password'), 
     path('activate/<slug:uidb64>/<slug:token>)/', views.activate, name='activate'),
     path(
     'reset-password/',

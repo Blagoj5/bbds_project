@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
-{% block content %} 
+{% load socialaccount %}
+{% providers_media_js %}
+{% block content %}
+{% include "socialaccount/snippets/login_extra.html" %}
+
     <div class="container-contact2">
             <div class="wrap-contact2">
                 {% include 'partials/_alerts.html' %}
@@ -33,6 +37,7 @@
                         </div>
                     </div>
                 </form>
+                <a href="{% provider_login_url "facebook" method="js_sdk" %}">Login with Facebook</a>
             </div>
       </div>
 {% endblock %}

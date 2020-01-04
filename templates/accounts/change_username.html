@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="container-contact2">
+            <div class="wrap-contact2">
+                {% include 'partials/_alerts.html' %}
+                <form class="contact2-form validate-form" method="POST" action="{% url 'change_username' request.user.id %}" id="my_form">
+                    {% csrf_token %}
+                    <span class="contact2-form-title">
+                    Change Profile Username
+                    </span>
+
+                    {% if new_socialuser %}
+                        <!-- So i can refresh the season!! -->
+                        <input type="hidden" name="refresh_session" value="refresh">
+                        <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                            <input class="input2" type="text" name="username" required>
+                            <span class="focus-input2" data-placeholder="NEW USERNAME"></span>
+                        </div>
+                        <p style="font-size: 20px;" class='text-center'>Continue using the default username: 
+                            <a href="javascript:{document.getElementById('my_form').submit()}" style="font-size: 20px;"><b>{{ request.user.username }} </b> &#8677;</a>
+                            <br>
+                            OR
+                        </p>
+
+                        <div class="container-contact2-form-btn">
+                            <div class="wrap-contact2-form-btn">
+                                <div class="contact2-form-bgbtn"></div>
+                                <button class="contact2-form-btn">
+                                    Change username
+                                </button>
+                            </div>
+                        </div>
+                             
+                    {% else %}
+                        <!-- if not from social account, normal account then make pass confirms in order to change user -->
+                        <!-- generate from_social parametar from the view -->
+
+                        {% if not from_social or request.user.has_usable_password %}
+                            <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                <input class="input2" type="text" name="username">
+                                <span class="focus-input2" data-placeholder="NEW USERNAME"></span>
+                            </div>
+                            <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                <input class="input2" type="password" name="password">
+                                <span class="focus-input2" data-placeholder="PASSWORD"></span>
+                            </div>
+
+                            <div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                <input class="input2" type="password" name="password2">
+                                <span class="focus-input2" data-placeholder="CONFIRM PASSWORD"></span>
+                            </div>
+
+                            <div class="container-contact2-form-btn">
+                                <div class="wrap-contact2-form-btn">
+                                    <div class="contact2-form-bgbtn"></div>
+                                    <button class="contact2-form-btn">
+                                        Change username
+                                    </button>
+                                </div>
+                            </div>
+
+                        {% else %}                         
+                            <p style="font-size: 20px;" class='text-center'>You haven't set password for this Account! Please 
+                                <a href="{% url 'change_password' request.user.id %}" style="font-size: 20px;"><b>add password</b></a> in order to be able to change the Username 
+                            </p>
+                        {% endif %}
+                    {% endif %}
+
+
+                </form>
+            </div>
+      </div>
+{% endblock %}

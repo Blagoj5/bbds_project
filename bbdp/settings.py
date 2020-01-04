@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'widget_tweaks',
-
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'bbdp.urls'
@@ -76,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -164,8 +167,10 @@ MESSAGE_TAGS = {
 
 # Authentication with Social media apps 
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
+
 )
 
 SOCIALACCOUNT_PROVIDERS = \
@@ -202,8 +207,11 @@ ACCOUNT_USERNAME_REQURIED=True
 
 
 #Login redirech Url
+# Redirect it to social account conformation so it can check whenever the 
+# user is newly signed up and offer for a change in the username
 LOGIN_REDIRECT_URL = '/account/dashboard'
 LOGIN_URL = '/account/login'
+LOGOUT_URL = '/account/logout'  
 
 #Email
 EMAIL_HOST = 'smtp.gmail.com'

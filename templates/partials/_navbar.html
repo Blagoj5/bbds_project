@@ -34,7 +34,8 @@
                             </li>
                             {% if user.is_authenticated %}
                             <li {% if 'dashboard' in request.path %} class="active" {% endif %}><a href="{% url 'dashboard' %}">{{ user.username|capfirst }}'s Dashboard</a></li>
-                                <li class="menu-btn">
+                            <li><a href="{% url 'change_username' request.user.id %}"><i class="fa fa-gear" style="font-size:24px"></i></a></li>
+                            <li class="menu-btn">
                                     <a href="{% url 'logout' %}" class="template-btn">Logout</a>
                                 </li>
                             {% else %}
